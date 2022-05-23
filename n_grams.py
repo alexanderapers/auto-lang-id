@@ -34,11 +34,12 @@ def read_table(filename):
 
     with open(filename, "r", encoding="utf8") as conn:
         lines = conn.read()
-        for line in lines.split("\n"):
-            if line is not "":
-                line_values = line.split(" ")
-                value = int(line_values[0])
-                key = line_values[1]
-                result[key] = value
+
+    for line in lines.split("\n"):
+        if line is not "":
+            line_values = line.split(" ")
+            value = int(line_values[0])
+            key = line_values[1]
+            result[key] = value
 
     return result
