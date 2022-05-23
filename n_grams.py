@@ -1,5 +1,7 @@
 import re
 from collections import Counter
+from numpy.linalg import norm
+import numpy as np
 
 def tokenize(text):
     return re.sub(r"[!?\",.()<>]", " ", text).split()
@@ -36,10 +38,22 @@ def read_table(filename):
         lines = conn.read()
 
     for line in lines.split("\n"):
-        if line is not "":
+        if line != "":
             line_values = line.split(" ")
             value = int(line_values[0])
             key = line_values[1]
             result[key] = value
 
     return result
+
+def cosine_similarity(reference_frequencies, unknown_frequencies):
+    dot_product = 0
+    for ngram in reference_frequencies:
+        if ngram in unknown_frequencies:
+            dot_product += reference_frequencies[ngram] * unknown_frequencies[ngram]
+
+    return dot_product / (magnitude(reference_frequencies) * magnitude(unknown_frequencies))
+
+
+def magnitude(frequencies):
+    return norm(list(frequencies.values()))
